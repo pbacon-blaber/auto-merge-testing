@@ -1,0 +1,16 @@
+name: "Checks"
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  run-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          echo "Running Fake Checks"
+          sleep 20
+          echo "Checks Passed"
