@@ -17,3 +17,4 @@ jobs:
           echo "Running Fake Checks"
           sleep 20
           echo "Checks Passed"
+          exit 0
