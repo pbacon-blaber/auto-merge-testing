@@ -30,7 +30,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
       - name: Create PR
         run: |
-          gh pr create -B main -H release-${{ steps.update_file.outputs.date_tag }} --fill
+          TITLE="Auto PR for ${{ steps.update_file.outputs.date_tag }}"
+          BODY="This is an auto PR for ${{ steps.update_file.outputs.date_tag }}"
+          gh pr create -B main -H release-${{ steps.update_file.outputs.date_tag }} --title "$TITLE" --body "$BODY"
           gh pr merge --auto --squash
         env:
           GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
