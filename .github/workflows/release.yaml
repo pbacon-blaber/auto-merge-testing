@@ -7,15 +7,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Update file and tag
+        id: update_file
+        run: |
           DATE=$(date +"%s")
-          echo $DATE > file.txt
+          echo "date_tag=$(echo $DATE)" >> $GITHUB_OUTPUT
       - run:
-          echo $DATE
+          echo ${{ steps.update_file.outputs.date_tag }}
       - uses: planetscale/ghcommit-action@b662a9d7235a07e80d976152ed5afe41651c4973
         with:
-          commit_message: "Auto PR for $DATE"
+          commit_message: "Auto PR for ${{ steps.update_file.outputs.date_tag }}"
           repo: ${{ github.repository }}
-          branch: release-$DATE
+          branch: release-${{ steps.update_file.outputs.date_tag }}
         env:
           GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
