@@ -11,6 +11,7 @@ jobs:
         id: update_file
         run: |
           DATE=$(date +"%s")
+          echo $DATE >> file.txt
           echo "date_tag=$(echo $DATE)" >> $GITHUB_OUTPUT
       - run:
           echo ${{ steps.update_file.outputs.date_tag }}
