@@ -7,7 +7,4 @@ jobs:
     permissions:
       pull-requests: write
     steps:
-      - run: echo "Auto-approving PR"
       - uses: hmarr/auto-approve-action@v4
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
