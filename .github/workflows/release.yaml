@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v2
       - name: Update file and tag
@@ -39,10 +40,5 @@ jobs:
           gh pr merge --auto --squash
         env:
           GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
-      - name: Auto Approve PR
-        run: |
-          gh pr review ${{ steps.create_pr.outputs.pr_number }} --approve
-        env:
-          GH_TOKEN: ${{ github.token }}
 
         
