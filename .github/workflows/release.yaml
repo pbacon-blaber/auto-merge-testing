@@ -17,6 +17,8 @@ jobs:
         run: |
           git checkout -b release-${{ steps.update_file.outputs.date_tag }}
           git push -f -u origin release-${{ steps.update_file.outputs.date_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
       - uses: planetscale/ghcommit-action@b662a9d7235a07e80d976152ed5afe41651c4973
         with:
           commit_message: "Auto PR for ${{ steps.update_file.outputs.date_tag }}"
