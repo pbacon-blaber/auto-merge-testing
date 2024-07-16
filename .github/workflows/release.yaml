@@ -7,15 +7,29 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Update file and tag
+        id: update_file
+        run: |
           DATE=$(date +"%s")
-          echo $DATE > file.txt
-      - run:
-          echo $DATE
+          echo $DATE >> file.txt
+          echo "date_tag=$(echo $DATE)" >> $GITHUB_OUTPUT
+      - name: Create Branch
+        run: |
+          git checkout -b release-${{ steps.update_file.outputs.date_tag }}
+          git push -f -u origin release-${{ steps.update_file.outputs.date_tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
       - uses: planetscale/ghcommit-action@b662a9d7235a07e80d976152ed5afe41651c4973
         with:
-          commit_message: "Auto PR for $DATE"
+          commit_message: "Auto PR for ${{ steps.update_file.outputs.date_tag }}"
           repo: ${{ github.repository }}
-          branch: release-$DATE
+          branch: release-${{ steps.update_file.outputs.date_tag }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
+      - name: Create PR
+        run: |
+          gh pr create -B main -H release-${{ steps.update_file.outputs.date_tag }} --fill
+          gh pr merge --auto --squash
+        env:
+          GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
+        
