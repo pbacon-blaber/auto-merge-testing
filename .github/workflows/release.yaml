@@ -8,4 +8,14 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
-          date > file.txt
+          DATE=$(date +"%s")
+          echo $DATE > file.txt
+      - run:
+          echo $DATE
+      - uses: planetscale/ghcommit-action@b662a9d7235a07e80d976152ed5afe41651c4973
+        with:
+          commit_message: "Auto PR for $DATE"
+          repo: ${{ github.repository }}
+          branch: release-$DATE
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
