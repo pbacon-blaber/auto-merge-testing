@@ -42,5 +42,7 @@ jobs:
       - name: Auto Approve PR
         run: |
           gh pr review ${{ steps.create_pr.outputs.pr_number }} --approve
+        env:
+          GH_TOKEN: ${{ github.token }}
 
         
