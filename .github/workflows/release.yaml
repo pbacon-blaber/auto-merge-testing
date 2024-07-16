@@ -13,8 +13,10 @@ jobs:
           DATE=$(date +"%s")
           echo $DATE >> file.txt
           echo "date_tag=$(echo $DATE)" >> $GITHUB_OUTPUT
-      - run:
-          echo ${{ steps.update_file.outputs.date_tag }}
+      - name: Create Branch
+        run: |
+          git checkout -b release-${{ steps.update_file.outputs.date_tag }}
+          git push -f -u origin release-${{ steps.update_file.outputs.date_tag }}
       - uses: planetscale/ghcommit-action@b662a9d7235a07e80d976152ed5afe41651c4973
         with:
           commit_message: "Auto PR for ${{ steps.update_file.outputs.date_tag }}"
