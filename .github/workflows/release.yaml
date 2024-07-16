@@ -40,9 +40,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PBB_GH_TOKEN }}
       - name: Auto Approve PR
-        run: |
-          gh pr review ${{ steps.create_pr.outputs.pr_number }} --approve
-        env:
-          GH_TOKEN: ${{ github.token }}
+        uses: hmarr/auto-approve-action@v4
+        with:
+          pull-request-number: ${{ steps.create_pr.outputs.pr_number }}
 
         
