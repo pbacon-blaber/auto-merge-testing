@@ -7,5 +7,6 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - run: echo {{ github.event.pull_request.title }}
       - uses: hmarr/auto-approve-action@v4
         if: startsWith(github.event.pull_request.title, 'Auto PR for')
