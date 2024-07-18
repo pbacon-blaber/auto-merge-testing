@@ -7,5 +7,9 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - run: |
+          echo "Viewing Files"
+          FILES=$(gh pr view -json files | jq '[.files[].path]' -r -c)
+          echo $FILES
       - uses: hmarr/auto-approve-action@v4
         if: startsWith(github.event.pull_request.title, 'Auto PR for')
